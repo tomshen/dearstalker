@@ -1,0 +1,18 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Dearstalker</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+  </head>
+  <body>
+    <header><h1>Dear Stalker - {{ name }}</h1></header>
+    <ul id="threads">
+    {% for thread in threads %}
+      <li class="thread">
+        {{ thread.comments }}
+      </li>
+    {% endfor %}
+    </ul>
+    <script src="/static/js/app.js"></script>
+  </body>
+</body>
