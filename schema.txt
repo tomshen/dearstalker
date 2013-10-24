@@ -1,0 +1,18 @@
+Thread: list of Comments
+
+Comment:
+  created_time: string containing ISO 8601 date
+  message: string (empty string if sticker)
+  from:
+    name: string
+    id: string (numeric id uniquely identifying user)
+
+Sentiment:
+  outlook: floats between -10 and 10
+  romance: floats between -10 and 10
+
+User: https://developers.facebook.com/docs/reference/api/user/
+
+-> NLP backend: List of Threads
+-> Web backend: Dictionary of User ID -> Sentiment
+-> Frontend: JSON object of User ID -> User, JSON object of User ID -> Sentiment
