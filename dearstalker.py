@@ -40,8 +40,13 @@ def messages(res):
     session['oauth_token'] = (res['access_token'], '')
     me = facebook.get('/me')
     inbox = facebook.get('/me/inbox')
+    threads = []
+    for t in inbox.data['data']:
+        if u'comments' in t:
+            if u'data' in t[u'comments']:
+                threads.append(t[u'comments'][u'data'])
     return render_template('messages.html', name=me.data['name'],
-        threads=jsonify(inbox.data['data']))
+        threads=threads)
 
 
 @facebook.tokengetter

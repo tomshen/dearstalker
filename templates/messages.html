@@ -9,7 +9,11 @@
     <ul id="threads">
     {% for thread in threads %}
       <li class="thread">
-        {{ thread.comments }}
+        <ul class="comments">
+        {% for comment in thread %}
+          <li>{{ comment.from.name }}: {{ comment.message }}</li>
+        {% endfor %}
+        </ul>
       </li>
     {% endfor %}
     </ul>
