@@ -19,3 +19,15 @@ li{
 	font-size: 1.0em;
 
 }
+
+a.button{
+	float:left;
+	display: block;
+	with:115px;
+	height:25px;
+	background:#3B68AD;
+	border-radius:5px;
+	color:white;
+	color:white;
+
+}
