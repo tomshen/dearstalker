@@ -9,7 +9,8 @@
     <ul id="threads">
     {% for thread in threads %}
       <li class="thread">
-        <ul class="comments">
+      <h2>New Thread:</h2> 
+	 <ul class="comments">
         {% for comment in thread %}
           <li>{{ comment.from.name }}: {{ comment.message }}</li>
         {% endfor %}

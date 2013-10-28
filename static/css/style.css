@@ -20,14 +20,14 @@ li{
 
 }
 
-a.button{
-	float:left;
+header a{
+	float:right;
 	display: block;
-	with:115px;
+	width:150px;
 	height:25px;
 	background:#3B68AD;
+	text-align:center;
 	border-radius:5px;
-	color:white;
 	color:white;
 
 }
