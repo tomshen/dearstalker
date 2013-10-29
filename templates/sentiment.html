@@ -1,0 +1,18 @@
+<!doctype html>
+<html>
+<head>
+	<title>Dearstalker</title>
+	 <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <header><h1>Dear Stalker - {{ name }}</h1></header>
+	<div id = "graph">
+	    <ul id="threads">
+		{% for user in users %}
+		<li>
+		{{user.name}}: {{sentiment[user.id].outlook}} , {{sentiment[user.id].romance}}
+		</li>
+		{% endfor %}
+	    </ul>
+	</div>
+</body>
