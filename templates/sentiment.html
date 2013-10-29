@@ -5,7 +5,7 @@
 	 <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
-    <header><h1>Dear Stalker - {{ name }}</h1></header>
+    <header><h1>Dear Stalker - {{me.name}}</h1></header>
 	<div id = "graph">
 	    <ul id="threads">
 		{% for user in users %}
