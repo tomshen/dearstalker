@@ -22,7 +22,8 @@ User: https://developers.facebook.com/docs/reference/api/user/
      output of get_sentiment: Dictionary of User ID -> Sentiment
 -> Frontend:
      users: Array of User objects
-     sentiment: JSON object of User ID -> Sentiment
+     sentiment: Dict of User ID -> Sentiment
+     me: User object for current user
 
 The web backend will call get_sentiment in fbanalysis. get_sentiment will
 call code in the NLP backend.

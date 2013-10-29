@@ -59,7 +59,7 @@ def sentiment(res):
                 threads.append(t[u'comments'][u'data'])
     sentiment = fbanalysis.get_sentiment(me.data, users, threads)
     return render_template('sentiment.html', sentiment=sentiment,
-        users=users.values(), current_user=me.data)
+        users=users.values(), me=me.data)
 
 
 @facebook.tokengetter
