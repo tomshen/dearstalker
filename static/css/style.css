@@ -12,7 +12,7 @@ header h1{
 }
 
 ul{
-   	font-size:1.25em;
+   	font-size:1.0em;
 }
 
 li{
@@ -25,7 +25,7 @@ header a{
 	display: block;
 	width:150px;
 	height:25px;
-	background:#3B68AD;
+	background:#3B5998;
 	text-align:center;
 	border-radius:5px;
 	color:white;
