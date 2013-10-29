@@ -13,6 +13,16 @@ Sentiment:
 
 User: https://developers.facebook.com/docs/reference/api/user/
 
--> NLP backend: List of Threads
--> Web backend: Dictionary of User ID -> Sentiment
--> Frontend: JSON object of User ID -> User, JSON object of User ID -> Sentiment
+-> NLP backend:
+     inputs to get_sentiment:
+       threads:List of Threads
+       users: Dict of User ID -> User object
+       current_user: User object of logged-in user
+-> Web backend:
+     output of get_sentiment: Dictionary of User ID -> Sentiment
+-> Frontend:
+     users: Array of User objects
+     sentiment: JSON object of User ID -> Sentiment
+
+The web backend will call get_sentiment in fbanalysis. get_sentiment will
+call code in the NLP backend.
