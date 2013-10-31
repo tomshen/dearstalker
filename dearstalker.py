@@ -51,9 +51,9 @@ def sentiment(res):
     for t in inbox.data['data']:
         if u'to' in t:
             for u in t[u'to'][u'data']:
-                users[u['id']] = u
-                # this is too slow
-                # users[user_id] = facebook.get('/' + user_id + '?fields=id,name,picture').data
+                if u['id'] == me.data['id']:
+                    continue
+                users[u['id']] = facebook.get('/' + u['id']).data
         if u'comments' in t:
             if u'data' in t[u'comments']:
                 threads.append(t[u'comments'][u'data'])
