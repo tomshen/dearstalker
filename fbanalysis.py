@@ -19,6 +19,7 @@ def get_sentiment(current_user, users, threads):
         else:
             return friend_msg_count[user['id']]/max_comments * 20.0 - 10.0
 
+    """
     current_gender = current_user['gender']
     current_rel_status = current_user['relationship_status']
     current_sig_other = current_user['significant_other']['id']
@@ -31,6 +32,9 @@ def get_sentiment(current_user, users, threads):
             return 3
         else:
             return -2
+    """
+    def romance(user):
+        return random.randint(-10,10)
     return dict([(ui, {
         'outlook': outlook(u),
         'romance': romance(u)

@@ -18,7 +18,7 @@ facebook = oauth.remote_app(
     authorize_url='https://www.facebook.com/dialog/oauth',
     consumer_key=config.FACEBOOK_APP_ID,
     consumer_secret=config.FACEBOOK_APP_SECRET,
-    request_token_params={ 'scope': 'read_mailbox' }
+    request_token_params={ 'scope': 'read_mailbox,user_relationships,user_relationship_details' }
 )
 
 @app.route('/')
@@ -53,7 +53,7 @@ def sentiment(res):
             for u in t[u'to'][u'data']:
                 if u['id'] == me.data['id']:
                     continue
-                users[u['id']] = facebook.get('/' + u['id']).data
+                users[u['id']] = u#facebook.get('/' + u['id']).data
         if u'comments' in t:
             if u'data' in t[u'comments']:
                 threads.append(t[u'comments'][u'data'])
