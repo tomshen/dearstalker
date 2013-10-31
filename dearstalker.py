@@ -1,13 +1,21 @@
+import os
 import json
 from flask import Flask, render_template, redirect, url_for, session, request, jsonify
 from flask_oauth import OAuth
 
-import config
 import fbanalysis
 
+try:
+    from config import SECRET_KEY, DEBUG, FACEBOOK_APP_ID, FACEBOOK_APP_SECRET
+except ImportError:
+    SECRET_KEY = os.environ['SECRET_KEY']
+    DEBUG = os.getenv('DEBUG', False)
+    FACEBOOK_APP_ID = os.environ['FACEBOOK_APP_ID']
+    FACEBOOK_APP_SECRET = os.environ['FACEBOOK_APP_SECRET']
+
 app = Flask(__name__)
-app.debug = getattr(config, 'DEBUG', True)
-app.secret_key = getattr(config, 'SECRET_KEY', '')
+app.debug = DEBUG
+app.secret_key = SECRET_KEY
 oauth = OAuth()
 
 facebook = oauth.remote_app(
@@ -16,8 +24,8 @@ facebook = oauth.remote_app(
     request_token_url=None,
     access_token_url='/oauth/access_token',
     authorize_url='https://www.facebook.com/dialog/oauth',
-    consumer_key=config.FACEBOOK_APP_ID,
-    consumer_secret=config.FACEBOOK_APP_SECRET,
+    consumer_key=FACEBOOK_APP_ID,
+    consumer_secret=FACEBOOK_APP_SECRET,
     request_token_params={ 'scope': 'read_mailbox,user_relationships,user_relationship_details' }
 )
 
@@ -61,11 +69,9 @@ def sentiment(res):
     return render_template('sentiment.html', sentiment=sentiment,
         users=users.values(), me=me.data)
 
-
 @facebook.tokengetter
 def get_facebook_oauth_token():
     return session.get('oauth_token')
-
 
 if __name__ == '__main__':
     app.run()
