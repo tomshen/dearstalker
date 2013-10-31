@@ -1,4 +1,4 @@
-Thread: list of Comments
+Thread: list of Comment objects
 
 Comment:
   created_time: string containing ISO 8601 date
