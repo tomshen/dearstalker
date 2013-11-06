@@ -1,1 +1,1 @@
-web: python dearstalker.py
+web: gunicorn dearstalker:app --debug
