@@ -7,9 +7,11 @@ def get_sentiment(current_user, users, threads):
         friend_msg_count[user] = 0
     for thread in threads:
         for comment in thread:
-            sender = comment['from']['id']
-            if sender not in friend_msg_count:
-                friend_msg_count[sender] = 0
+            try:
+                sender = comment['from']['id']
+                if sender not in friend_msg_count:
+                    friend_msg_count[sender] = 0
+            except: continue
             friend_msg_count[sender] += 1
     friend_msg_count[current_user['id']] = None
     max_comments = float(max(friend_msg_count.values()))
