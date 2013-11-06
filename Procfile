@@ -1,1 +1,1 @@
-web: gunicorn dearstalker:app
+web: python dearstalker.py
