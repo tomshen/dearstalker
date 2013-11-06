@@ -26,7 +26,7 @@ facebook = oauth.remote_app(
     authorize_url='https://www.facebook.com/dialog/oauth',
     consumer_key=FACEBOOK_APP_ID,
     consumer_secret=FACEBOOK_APP_SECRET,
-    request_token_params={ 'scope': 'read_mailbox,user_relationships,user_relationship_details' }
+    request_token_params={ 'scope': 'read_mailbox' }
 )
 
 @app.route('/')
