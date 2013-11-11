@@ -1,6 +1,6 @@
 import os
 import json
-from flask import Flask, render_template, redirect, url_for, session, request, jsonify
+from flask import Flask, render_template, redirect, url_for, session, request, jsonify, abort
 from flask_oauth import OAuth
 
 import fbanalysis
@@ -36,12 +36,15 @@ def index():
 @app.route('/login')
 def login():
     return facebook.authorize(callback=url_for('sentiment',
-        next=request.args.get('next') or request.referrer or None,
         _external=True))
 
 @app.route('/logout')
 def logout():
     return 'Currently not implemented'
+
+@app.route('/channel.html')
+def channel():
+    return render_template('channel.html')
 
 @app.route('/sentiment')
 @facebook.authorized_handler
@@ -52,6 +55,7 @@ def sentiment(res):
             request.args['error_description']
         )
     session['oauth_token'] = (res['access_token'], '')
+
     me = facebook.get('/me')
     inbox = facebook.get('/me/inbox')
     threads = []
@@ -65,9 +69,11 @@ def sentiment(res):
         if u'comments' in t:
             if u'data' in t[u'comments']:
                 threads.append(t[u'comments'][u'data'])
+
     sentiment = fbanalysis.get_sentiment(me.data, users, threads)
+
     return render_template('sentiment.html', sentiment=sentiment,
-        users=users.values(), me=me.data)
+        users=users.values(), access_token=res['access_token'])
 
 @facebook.tokengetter
 def get_facebook_oauth_token():

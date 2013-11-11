@@ -1,77 +1,120 @@
 <!doctype html>
 <html>
 <head>
-	<title>Dearstalker</title>
-	 <link rel="stylesheet" href="/static/css/style.css">
+    <title>Dearstalker</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/highcharts.js"></script>
+    <script src='/static/js/facebook.js'></script>
 </head>
-
-<script src="/static/js/jquery.min.js"></script>
-<script src="/static/js/highcharts.js"></script>
-
 <body>
-    <header><h1>Dear Stalker - {{me.name}}</h1></header>
-	<div id = "graph">
-	    <ul id="threads">
-		{% for user in users %}
-		<li>
-		{{user.name}}: {{sentiment[user.id].outlook}} , {{sentiment[user.id].romance}}
-		</li>
-		{% endfor %}
-	    </ul>
-	</div>
-	<div id="container" style="width:100%; height:400px;"></div>
-	<script>
-	var sentiment = {{sentiment|tojson|safe}};
-	$(function () { 
-    $('#container').highcharts({
-        chart: {
-            type: 'scatter',
-        },
-        title: {
-            text: 'Sentiment Anaylsis of Facebook Messages'
-        },
-        xAxis: {
-            title:{enabled:true, text:'Outlook'},
-		startOnTick:true, endOnTick:true, showLastLabel:true
-        },
-        yAxis: {
-            title: {
-                text: 'Romance'
-            }
-        },
-            plotOptions: {
-                scatter: {
-                    marker: {
-                        radius: 5,
+    <!-- Load and initialize Facebook JS SDK -->
+    <div id="fb-root"></div>
+    <script>
+      window.fbAsyncInit = function() {
+        // init the FB JS SDK
+        FB.init({
+          appId      : '602984353081540',                        // App ID from the app dashboard
+          channelUrl : '/channel.html', // Channel file for x-domain comms
+          status     : true,                                 // Check Facebook Login status
+          xfbml      : true                                  // Look for social plugins on the page
+        });
+
+        // Additional initialization code such as adding Event Listeners goes here
+        if (typeof facebookInit === 'function') {
+          facebookInit();
+        }
+      };
+
+      // Load the SDK asynchronously
+      (function(){
+         // If we've already installed the SDK, we're done
+         if (document.getElementById('facebook-jssdk')) {return;}
+
+         // Get the first script element, which we'll use to find the parent node
+         var firstScriptElement = document.getElementsByTagName('script')[0];
+
+         // Create a new script element and set its id
+         var facebookJS = document.createElement('script');
+         facebookJS.id = 'facebook-jssdk';
+
+         // Set the new script's source to the source of the Facebook JS SDK
+         facebookJS.src = '//connect.facebook.net/en_US/all.js';
+
+         // Insert the Facebook JS SDK into the DOM
+         firstScriptElement.parentNode.insertBefore(facebookJS, firstScriptElement);
+       }());
+    </script>
+
+    <header><h1>Dear Stalker</h1></header>
+    <div id = "graph">
+        <ul id="threads">
+            {% for user in users %}
+            <li>{{user.name}}: {{sentiment[user.id].outlook}} , {{sentiment[user.id].romance}}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div id="container" style="width:100%; height:400px;"></div>
+    <script>
+        var sentiment = {{sentiment|tojson|safe}};
+        var accessToken = '{{ access_token }}';
+
+        function facebookInit() {
+          Facebook().me(function (user) {
+            $('header h1').append(' - ' + user.name);
+          });
+        }
+
+        $(function () {
+            $('#container').highcharts({
+                chart: {
+                    type: 'scatter',
+                },
+                title: {
+                    text: 'Sentiment Anaylsis of Facebook Messages'
+                },
+                xAxis: {
+                    title:{enabled:true, text:'Outlook'},
+                startOnTick:true, endOnTick:true, showLastLabel:true
+                },
+                yAxis: {
+                    title: {
+                        text: 'Romance'
+                    }
+                },
+                plotOptions: {
+                    scatter: {
+                        marker: {
+                            radius: 5,
+                            states: {
+                                hover: {
+                                    enabled: true,
+                                    lineColor: 'rgb(100,100,100)'
+                                }
+                            }
+                        },
                         states: {
                             hover: {
-                                enabled: true,
-                                lineColor: 'rgb(100,100,100)'
+                                marker: {
+                                    enabled: false
+                                }
                             }
+                        },
+                        tooltip: {
+                            headerFormat: '<b>{series.name}</b><br>',
+                            pointFormat: '{point.x}, {point.y}'
                         }
-                    },
-                    states: {
-                        hover: {
-                            marker: {
-                                enabled: false
-                            }
-                        }
-                    },
-                    tooltip: {
-                        headerFormat: '<b>{series.name}</b><br>',
-                        pointFormat: '{point.x}, {point.y}'
                     }
-                }
-            },
-        series: [{
-/*This needs to be fixed*/
-            name: 'Jane',
-            data: [1, 0, 4]
-        }, {
-            name: 'John',
-            data: [5, 7, 3]
-        }]
-    });
-});
-		</script>
+                },
+                series: [{
+                /*This needs to be fixed*/
+                    name: 'Jane',
+                    data: [1, 0, 4]
+                }, {
+                    name: 'John',
+                    data: [5, 7, 3]
+                }]
+            });
+        });
+    </script>
 </body>
