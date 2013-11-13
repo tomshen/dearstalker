@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="/static/css/style.css">
     <script src="/static/js/jquery.min.js"></script>
     <script src="/static/js/highcharts.js"></script>
-    <script src='/static/js/facebook.js'></script>
+    <script src='/static/js/facebook.js?1234'></script>
 </head>
 <body>
     <!-- Load and initialize Facebook JS SDK -->
@@ -57,11 +57,20 @@
     <div id="container" style="width:100%; height:400px;"></div>
     <script>
         var sentiment = {{sentiment|tojson|safe}};
+        var users = {{users|tojson|safe}};
         var accessToken = '{{ access_token }}';
 
         function facebookInit() {
           Facebook().me(function (user) {
-            $('header h1').append(' - ' + user.name);
+            var name = user.name;
+            $('header h1').append(' - ' + name);
+          });
+
+          users.forEach(function (user) {
+            var user_id = user.id;
+            Facebook().profile(user_id, function (user) {
+              var picture_url = user.picture.data.url;
+            });
           });
         }
 
