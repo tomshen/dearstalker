@@ -48,13 +48,13 @@
 
     <header><h1>Dear Stalker</h1></header>
     <div id = "graph">
-        <ul id="threads">
+     <!--   <ul id="threads">
             {% for user in users %}
             <li>{{user.name}}: {{sentiment[user.id].outlook}} , {{sentiment[user.id].romance}}</li>
-            {% endfor %}
+            {% endfor %} -->
         </ul>
     </div>
-    <div id="container" style="width:100%; height:400px;"></div>
+    <div id="container" style="width:700px; height:700px;"></div>
     <script>
         var sentiment = {{sentiment|tojson|safe}};
         var users = {{users|tojson|safe}};
@@ -74,6 +74,115 @@
           });
         }
 
+
+/**
+ * Grid theme for Highcharts JS
+ * @author Torstein Hønsi
+ */
+
+Highcharts.theme = {
+   colors: ['#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'],
+   chart: {
+      backgroundColor: {
+         linearGradient: { x1: 0, y1: 0, x2: 1, y2: 1 },
+         stops: [
+            [0, 'rgb(255, 255, 255)'],
+            [1, 'rgb(240, 240, 255)']
+         ]
+      },
+      borderWidth: 2,
+      plotBackgroundColor: 'rgba(255, 255, 255, .9)',
+      plotShadow: true,
+      plotBorderWidth: 1
+   },
+   title: {
+      style: {
+         color: '#000',
+         font: 'bold 16px "Trebuchet MS", Verdana, sans-serif'
+      }
+   },
+   subtitle: {
+      style: {
+         color: '#666666',
+         font: 'bold 12px "Trebuchet MS", Verdana, sans-serif'
+      }
+   },
+   xAxis: {
+      min:-10,
+	max:10,
+	gridLineWidth: 1,
+      lineColor: '#000',
+      tickColor: '#000',
+      labels: {
+         style: {
+            color: '#000',
+            font: '11px Trebuchet MS, Verdana, sans-serif'
+         }
+      },
+      title: {
+         style: {
+            color: '#333',
+            fontWeight: 'bold',
+            fontSize: '12px',
+            fontFamily: 'Trebuchet MS, Verdana, sans-serif'
+
+         }
+      }
+   },
+   yAxis: {
+	min:-10,
+	max:10,
+      minorTickInterval: 'auto',
+      lineColor: '#000',
+      lineWidth: 1,
+      tickWidth: 1,
+      tickColor: '#000',
+      labels: {
+         style: {
+            color: '#000',
+            font: '11px Trebuchet MS, Verdana, sans-serif'
+         }
+      },
+      title: {
+         style: {
+            color: '#333',
+            fontWeight: 'bold',
+            fontSize: '12px',
+            fontFamily: 'Trebuchet MS, Verdana, sans-serif'
+         }
+      }
+   },
+   legend: {
+      itemStyle: {
+         font: '9pt Trebuchet MS, Verdana, sans-serif',
+         color: 'black'
+
+      },
+      itemHoverStyle: {
+         color: '#039'
+      },
+      itemHiddenStyle: {
+         color: 'gray'
+      }
+   },
+   labels: {
+      style: {
+         color: '#99b'
+      }
+   },
+
+   navigation: {
+      buttonOptions: {
+         theme: {
+            stroke: '#CCCCCC'
+         }
+      }
+   }
+};
+
+// Apply the theme
+var highchartsOptions = Highcharts.setOptions(Highcharts.theme);
+
         $(function () {
             $('#container').highcharts({
                 chart: {
@@ -84,12 +193,15 @@
                 },
                 xAxis: {
                     title:{enabled:true, text:'Outlook'},
+	       	plotLines: [{ color: '#000000', width: 3 , value: 0}],
                 startOnTick:true, endOnTick:true, showLastLabel:true
                 },
                 yAxis: {
                     title: {
                         text: 'Romance'
-                    }
+                    },
+		plotLines: [{ color: '#000000', width: 3 , value: 0}]
+
                 },
                 plotOptions: {
                     scatter: {
@@ -115,12 +227,12 @@
                         }
                     }
                 },
-                series: [{
+                series: [
                 /*This needs to be fixed*/
-                    name: 'Jane',
-                    data:[ [1, 4]]
-                },{ name: 'John', data: [[-10,-10]]}, {name:'Joe', data: [[10,10]]} ]
-            });
+		{% for user in users %}
+            		{name: '{{user.name}}', data:[[ {{sentiment[user.id].outlook}} , {{sentiment[user.id].romance}}]] },
+            	{% endfor %}
+           	]});
         });
     </script>
 </body>
