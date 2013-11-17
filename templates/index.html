@@ -5,8 +5,19 @@
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
-    <header><h1>Dear Stalker</h1>
-    	<a href={{ url_for('login') }}>Login with Facebook</a>
+    <header>
+	<img src="static/img/deerstalker.jpg">
+	<h1>Dear Stalker</h1>
     </header>
+	<p>Dearstalker is a  web application that uses Facebook message analysis.
+ 	 The application will perform sentiment analysis on provided Facebook chat message data,
+	 which will then be processed to determine emotional trends.
+	 Upon giving permission, users will be able to submit their chat history,
+	 at which point the application will return deduced information about the user and
+	 their interactions on Facebook.  In this proposal, we discuss our plans to complete
+	 the project, including a tentative schedule and a description of our approach.
+	 </p>
+	 <a href={{ url_for('login') }}>Login with Facebook</a>
+
 </body>
 </html>

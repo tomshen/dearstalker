@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Dearstalker</title>
-    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/style.css?1">
     <script src="/static/js/jquery.min.js"></script>
     <script src="/static/js/highcharts.js"></script>
     <script src='/static/js/facebook.js?1234'></script>
@@ -46,15 +46,11 @@
        }());
     </script>
 
-    <header><h1>Dear Stalker</h1></header>
-    <div id = "graph">
-     <!--   <ul id="threads">
-            {% for user in users %}
-            <li>{{user.name}}: {{sentiment[user.id].outlook}} , {{sentiment[user.id].romance}}</li>
-            {% endfor %} -->
-        </ul>
-    </div>
-    <div id="container" style="width:700px; height:700px;"></div>
+    <header>
+	<img src="static/img/deerstalker.jpg">
+	<h1>Dear Stalker</h1>
+	</header>
+   <div id="container" style="width:700px; height:700px;"></div>
     <script>
         var sentiment = {{sentiment|tojson|safe}};
         var users = {{users|tojson|safe}};
@@ -228,7 +224,6 @@ var highchartsOptions = Highcharts.setOptions(Highcharts.theme);
                     }
                 },
                 series: [
-                /*This needs to be fixed*/
 		{% for user in users %}
             		{name: '{{user.name}}', data:[[ {{sentiment[user.id].outlook}} , {{sentiment[user.id].romance}}]] },
             	{% endfor %}
