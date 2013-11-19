@@ -7,6 +7,7 @@ header{
 header h1{
     padding-left: 25px;
     padding-top:18px;
+	float:left;
     color:white;
     font-size:2.0em;
     font-family:"lucida grande";
@@ -60,12 +61,4 @@ p{
 	text-align: center;
 	font-family:"lucida grande";
 	font-size:1.5em;
-}
-
-body{
-	text-align:center;
-}
-
-#container {
-	display:inline;
 }
