@@ -40,7 +40,8 @@ reader =  csv.reader( fp, delimiter=',', quotechar='"', escapechar='\\' )
 tweets = []
 for row in reader:
     tweets.append( [row[3], row[1]] );
-print "Twitter data obtained!"
+print "Twitter data loaded!"
+print "There are %d tweets loaded." % len(tweets)
 
 
 # treat neutral and irrelevant the same
@@ -54,8 +55,8 @@ random.shuffle( tweets );
 print "Start creating feature vectors..."
 fvecs = [(get_feature_vector(t),s) for (t,s) in tweets]
 print "Feature vectors created!"
-v_train = fvecs[:5000000]
-v_test  = fvecs[5000000:]
+v_train = fvecs[:len(fvecs)/3]
+v_test  = fvecs[len(fvecs)/3:]
 
 
 # dump tweets which our feature selector found nothing
