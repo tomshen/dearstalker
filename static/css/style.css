@@ -67,3 +67,10 @@ p{
 	font-family:"lucida grande";
 	font-size:1.5em;
 }
+
+table{
+	display:block;
+	float:left;
+	height:700px;
+	overflow:scroll;
+}
