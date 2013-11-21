@@ -15,29 +15,15 @@ def get_sentiment(current_user, users, threads):
             friend_msg_count[sender] += 1
     friend_msg_count[current_user['id']] = None
     max_comments = float(max(friend_msg_count.values()))
-    def outlook(user):
+    def volume(user):
         if user['id'] not in friend_msg_count:
             print '%s not found in message count' % users[user['id']]['name']
         else:
             return friend_msg_count[user['id']]/max_comments * 20.0 - 10.0
 
-    """
-    current_gender = current_user['gender']
-    current_rel_status = current_user['relationship_status']
-    current_sig_other = current_user['significant_other']['id']
-    def romance(user):
-        if user['id'] == current_sig_other:
-            return 10
-        elif current_rel_status == "Single" and user['relationship_status'] == 'Single':
-            return 7
-        elif current_gender != user['gender']:
-            return 3
-        else:
-            return -2
-    """
-    def romance(user):
+    def outlook(user):
         return random.randint(-10,10)
     return dict([(ui, {
-        'outlook': outlook(u),
-        'romance': romance(u)
+        'volume': volume(u),
+        'outlook': outlook(u)
         }) for ui, u in users.items()])
