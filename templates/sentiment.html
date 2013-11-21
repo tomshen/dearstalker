@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Dearstalker</title>
-    <link rel="stylesheet" href="/static/css/style.css?3">
+    <link rel="stylesheet" href="/static/css/style.css?10">
     <script src="/static/js/jquery.min.js"></script>
     <script src="/static/js/highcharts.js"></script>
     <script src='/static/js/facebook.js?1234'></script>
@@ -60,7 +60,7 @@
 				<th> Volume: </th>
 			</tr>
 
-		{% for user in users %}
+		{% for user in users|sort(attribute="name") %}
             		<tr>
 				<td id="user-{{user.id}}"></td>
 				<td>{{user.name}}</td>
@@ -88,7 +88,7 @@
             var user_id = user.id;
             Facebook().profile(user_id, function (user) {
               var picture_url = user.picture.data.url;
-		$("#user-"+user_id).html("<img src='"+picture_url+"'>");
+		$("#user-"+user_id).html("<img class='user-picture' src='"+picture_url+"'>");
             });
           });
         }

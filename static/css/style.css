@@ -70,7 +70,18 @@ p{
 
 table{
 	display:block;
-	float:left;
+	float:right;
 	height:700px;
+	font-family:"lucida grande";
+	font-size: 28px;
 	overflow:scroll;
+}
+
+#container{
+	float:left;
+}
+
+.user-picture {
+	width:100px;
+	height:auto;
 }
