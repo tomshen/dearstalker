@@ -1,3 +1,4 @@
+import pickle
 import nltk
 
 def find_users_in_thread(thread):
@@ -42,7 +43,7 @@ def calc_outlook(current_user, users, threads):
                 user_comment[comment['from']['id']].add(comment['text'])
             except: continue
         for user in thread_users:
-            if user = current_user:
+            if user == current_user:
                 continue
             comments = user_comments[user].extend(user_comments[current_user])
             fvecs = [get_feature_vector(c) for c in comments]
