@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Dearstalker</title>
-    <link rel="stylesheet" href="/static/css/style.css?1">
+    <link rel="stylesheet" href="/static/css/style.css?2">
     <script src="/static/js/jquery.min.js"></script>
     <script src="/static/js/highcharts.js"></script>
     <script src='/static/js/facebook.js?1234'></script>
@@ -194,7 +194,7 @@ var highchartsOptions = Highcharts.setOptions(Highcharts.theme);
                 },
                 yAxis: {
                     title: {
-                        text: 'Romance'
+                        text: 'Volume'
                     },
 		plotLines: [{ color: '#000000', width: 3 , value: 0}]
 
@@ -225,7 +225,7 @@ var highchartsOptions = Highcharts.setOptions(Highcharts.theme);
                 },
                 series: [
 		{% for user in users %}
-            		{name: '{{user.name}}', data:[[ {{sentiment[user.id].outlook}} , {{sentiment[user.id].romance}}]] },
+            		{name: '{{user.name}}', data:[[ {{sentiment[user.id].outlook}} , {{sentiment[user.id].volume}}]] },
             	{% endfor %}
            	]});
         });
