@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Dearstalker</title>
-    <link rel="stylesheet" href="/static/css/style.css?2">
+    <link rel="stylesheet" href="/static/css/style.css?3">
     <script src="/static/js/jquery.min.js"></script>
     <script src="/static/js/highcharts.js"></script>
     <script src='/static/js/facebook.js?1234'></script>
@@ -51,7 +51,29 @@
 	<h1>Dear Stalker</h1>
 	</header>
    <div id="container" style="width:700px; height:700px;"></div>
-    <script>
+	<div id = "table">    
+	<table border=1>
+			<tr> 
+				<th>Picture:</th>
+				<th> Name: </th>
+				<th> Outlook: </th>
+				<th> Volume: </th>
+			</tr>
+
+		{% for user in users %}
+            		<tr>
+				<td id="user-{{user.id}}"></td>
+				<td>{{user.name}}</td>
+				<td>{{sentiment[user.id].outlook}}</td>
+				<td>{{sentiment[user.id].volume}}</td>
+			</tr>
+            	{% endfor %}
+
+	</table>
+	</div>
+
+
+<script>
         var sentiment = {{sentiment|tojson|safe}};
         var users = {{users|tojson|safe}};
         var accessToken = '{{ access_token }}';
@@ -66,6 +88,7 @@
             var user_id = user.id;
             Facebook().profile(user_id, function (user) {
               var picture_url = user.picture.data.url;
+		$("#user-"+user_id).html("<img src='"+picture_url+"'>");
             });
           });
         }
@@ -229,5 +252,8 @@ var highchartsOptions = Highcharts.setOptions(Highcharts.theme);
             	{% endfor %}
            	]});
         });
+
+
     </script>
+
 </body>
