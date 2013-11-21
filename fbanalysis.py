@@ -1,5 +1,6 @@
 import random
 import operator
+import calc_outlook
 
 def get_sentiment(current_user, users, threads):
     friend_msg_count = {}
@@ -22,7 +23,12 @@ def get_sentiment(current_user, users, threads):
             return friend_msg_count[user['id']]/max_comments * 20.0 - 10.0
 
     def outlook(user):
-        return random.randint(-10,10)
+        friend_outlook = calc_outlook.calc_outlook(get_sentiment, users, threads)
+        for user in friend_outlook.keys():
+            friend_outlook[user] = friend_outlook[user] * 20.0 - 10.0
+        return friend_outlook
+    
+
     return dict([(ui, {
         'volume': volume(u),
         'outlook': outlook(u)
