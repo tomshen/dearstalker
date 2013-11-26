@@ -3,6 +3,7 @@ config.py
 .env
 *.csv
 Sentiment-Analysis-Dataset/
+*.pickle
 
 ### Python ###
 *.py[cod]
