@@ -1,4 +1,3 @@
-import pickle
 import nltk
 
 def find_users_in_thread(thread):
