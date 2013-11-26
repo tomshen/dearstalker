@@ -14,7 +14,7 @@ import nltk
 #import tweet_features, tweet_pca
 import tweet_feature_gen
 import csv
-import pickle
+#import pickle
 import get_feature_map
 
 print "Creating feature map..."
@@ -86,9 +86,16 @@ print '\nAccuracy %f\n' % nltk.classify.accuracy(classifier, v_test)
 test_truth   = [s for (t,s) in v_test]
 test_predict = [classifier.classify(t) for (t,s) in v_test]
 
-print 'Confusion Matrix'
-print nltk.ConfusionMatrix( test_truth, test_predict )
+#print 'Confusion Matrix'
+#print nltk.ConfusionMatrix( test_truth, test_predict )
 
-f = open('my_classifier.pickle', 'wb')
-pickle.dump(classifier, f)
-f.close()
+w = csv.writer(open("classifier_label_probdist.csv", "w"))
+probdist = classifier._label_probdist
+for key in probdist.samples():
+    w.writerow([key, probdist.prob(key)])
+w.close()
+
+w = csv.writer(open("classifier_feature_probdist.csv", "w"))
+for key in classifier._feature_probdist.items():
+    w.writerow([key, val])
+w.close()

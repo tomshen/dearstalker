@@ -21,12 +21,26 @@ def get_feature_vector(comment):
     except: return fvec
 
 def calc_outlook(current_user, users, threads):
-    f = open('my_classifier.pickle', 'rb')
-    classifier = pickle.load(f)
+    label_probdist_dict = {}
+    f = csv.reader(open("classifier_label_probdist.csv", "r"))
+    for key, val in f:
+        label_probdist_dict[key] = val
     f.close()
 
-    f = open('featuremap.pickle', 'rb')
-    featuremap = pickle.load(f)
+    feature_probdist = {}
+    f = csv.reader(open("classifier_feature_probdist.csv", "r"))
+    for key, val in f:
+        feature_probdist[key] = val
+    f.close()
+
+    label_probdist = \
+        nltk.probability.DictionaryProbDist(prob_dict=label_probdist_dict, normalize=True)
+    classifier = nltk.classify.NaiveBayesClassifier(label_probdist, feature_probdist)
+
+    f = csv.reader(open("featuremap.csv", "r"))
+    featuremap = {}
+    for key, val in f:
+        featuremap[key] = val
     f.close()
 
     friend_outlook = {}

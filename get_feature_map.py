@@ -1,18 +1,20 @@
 import os.path
-import pickle
+import csv
 import tweet_feature_gen
 
 def get_feature_map(tweet_data):
 	feature_index = {}
-	features = "feature_map.pickle"
+	features = "feature_map.csv"
 	if os.path.isfile(features):
-		f = open(features)
-		feature_index = pickle.load(f)
+		f = csv.reader(open(features, "r"))
+                for key, val in f:
+                        dict[key] = val
 		f.close()
 	else: 
 		feature_index = tweet_feature_gen.get_feature_dict_from_corpus(tweet_data)
-		f = open(features, "wb")
-		pickle.dump(feature_index, f)
+		f = csv.writer(open(features, "w"))
+		for key, val in feature_index.items():
+                        w.writerow([key, val])
 		f.close()
 	return feature_index
 	
