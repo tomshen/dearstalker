@@ -18,17 +18,21 @@ def calc_outlook(current_user, users, threads):
     label_probdist_dict = {}
     f = csv.reader(open("classifier_label_probdist.csv", "r"))
     for key, val in f:
-        label_probdist_dict[float(key)] = val
+        label_probdist_dict[float(key)] = float(val)
 
     feature_probdist = {}
     f = csv.reader(open("classifier_feature_probdist.csv", "r"))
     for key, val in f:
         k = tuple([int(k) for k in eval(key)])
         feature_probdist[k] = cPickle.loads(val)
-        feature_probdist[k][0] = feature_probdist[k][None]
+        if 1 in feature_probdist[k]:
+            feature_probdist[k][0] = float(feature_probdist[k][None])
+            feature_probdist[k][1] = float(feature_probdist[k][1])
+        elif 0 in feature_probdist[k]:
+            feature_probdist[k][1] = float(feature_probdist[k][None])
+            feature_probdist[k][0] = float(feature_probdist[k][0])
         feature_probdist[k].pop(None)
         feature_probdist[k] = nltk.DictionaryProbDist(feature_probdist[k])
-    print feature_probdist
     label_probdist = \
         nltk.probability.DictionaryProbDist(prob_dict=label_probdist_dict)
     classifier = nltk.classify.NaiveBayesClassifier(label_probdist, feature_probdist)
