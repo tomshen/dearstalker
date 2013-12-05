@@ -1,7 +1,6 @@
 venv
 config.py
 .env
-*.csv
 Sentiment-Analysis-Dataset/
 *.pickle
 
