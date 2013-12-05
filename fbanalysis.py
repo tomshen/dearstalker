@@ -22,12 +22,16 @@ def get_sentiment(current_user, users, threads):
         else:
             return friend_msg_count[user['id']]/max_comments * 20.0 - 10.0
 
+    friend_outlook = calc_outlook.calc_outlook(current_user, users, threads)
+    for user in friend_outlook.keys():
+        friend_outlook[user] = friend_outlook[user] * 20.0 - 10.0
     def outlook(user):
-        friend_outlook = calc_outlook.calc_outlook(get_sentiment, users, threads)
-        for user in friend_outlook.keys():
-            friend_outlook[user] = friend_outlook[user] * 20.0 - 10.0
-        return friend_outlook
-    
+        val = friend_outlook[user['id']]
+        if val > 10: 
+            val = 10
+        if val < -10:
+            val = -10
+        return val
 
     return dict([(ui, {
         'volume': volume(u),

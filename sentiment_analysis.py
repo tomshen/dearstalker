@@ -14,8 +14,15 @@ import nltk
 #import tweet_features, tweet_pca
 import tweet_feature_gen
 import csv
-#import pickle
+#import json
+import cPickle
 import get_feature_map
+
+def serialize_DictionaryProbDist(dist):
+    dist_dict = {}
+    for s in dist.samples():
+        dist_dict[s] = dist.prob(s)
+    return cPickle.dumps(dist_dict)
 
 print "Creating feature map..."
 
@@ -76,15 +83,29 @@ classifier = nltk.NaiveBayesClassifier.train(v_train);
 print "Training complete!"
 #classifier = nltk.classify.maxent.train_maxent_classifier_with_gis(v_train);
 
+print "Getting 10000 best features..."
+#best = classifier.most_informative_features(n=4000)
+#print best.keys()
+#inv_features = {}
+#for key, value in feature_index.items():
+#    inv_features[value] = key
+#new_features = {}
+#for (key, val) in best:
+#    if key in inv_features:
+#        new_features[inv_features[key]] = key
+#f = csv.writer(open("feature_map.csv", "w"))
+#for key, val in new_features.items():
+#    f.writerow([key, val])
+
 
 # classify and dump results for interpretation
-print '\nAccuracy %f\n' % nltk.classify.accuracy(classifier, v_test)
+#print '\nAccuracy %f\n' % nltk.classify.accuracy(classifier, v_test)
 #print classifier.show_most_informative_features(200)
 
 
 # build confusion matrix over test set
-test_truth   = [s for (t,s) in v_test]
-test_predict = [classifier.classify(t) for (t,s) in v_test]
+#test_truth   = [s for (t,s) in v_test]
+#test_predict = [classifier.classify(t) for (t,s) in v_test]
 
 #print 'Confusion Matrix'
 #print nltk.ConfusionMatrix( test_truth, test_predict )
@@ -93,9 +114,8 @@ w = csv.writer(open("classifier_label_probdist.csv", "w"))
 probdist = classifier._label_probdist
 for key in probdist.samples():
     w.writerow([key, probdist.prob(key)])
-w.close()
 
 w = csv.writer(open("classifier_feature_probdist.csv", "w"))
-for key in classifier._feature_probdist.items():
-    w.writerow([key, val])
-w.close()
+for key, val in classifier._feature_probdist.items():
+    w.writerow([key, serialize_DictionaryProbDist(val)])
+
